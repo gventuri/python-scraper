@@ -1,0 +1,15 @@
+{
+  "start_url": "http://example.com",
+  "steps": [
+    {
+      "type": "link",
+      "multiple": false,
+      "target": ".title"
+    },
+    {
+      "type": "text",
+      "multiple": true,
+      "target": "section"
+    }
+  ]
+}

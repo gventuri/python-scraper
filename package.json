@@ -1,0 +1,13 @@
+{
+  "name": "python-scraper",
+  "version": "1.0.0",
+  "description": "A simple python scraper",
+  "repository": "https://github.com/gventuri/python-scraper.git",
+  "author": "Gabriele <lele.venturi@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "scrape": "python3 scraper.py",
+    "setup": "pip3 install -r requirements.txt"
+  }
+}
