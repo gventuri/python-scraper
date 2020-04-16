@@ -18,7 +18,6 @@ class Scraper:
         step = self.get_step_from_slug()
         step_name = self.get_step_name_from_slug()
 
-        # scrape_children(step, step_name)
         self.handle_pages()
 
     def get_result_by_type(self, step, item):
@@ -95,12 +94,14 @@ class Scraper:
             # Add to visited
             self.visited.append(url)
 
-        # print('/n/n/n/n/n/n+++ OBJ +++', self.visited, '/n/n/n/n/n/n')
-        
-
     def scrape_page_and_children(self, html):
         self.scrape_page(html)
         self.scrape_children(html)
+
+    def save_to_file(self, text):
+        file = open("results.txt", "a")
+        file.write(text+'\n\n')
+        file.close()
 
     def scrape_page(self, html, step=None, step_name=None):
         """
@@ -113,16 +114,18 @@ class Scraper:
         current_step_name = step_name or self.get_next_step_slug()
 
         # Handle the page scraping (only when step is not "main")
-        results = self.get_results(html, current_step) if current_step_name != self.MAIN_SLUG else []
+        results = self.get_results(
+            html, current_step) if current_step_name != self.MAIN_SLUG else []
 
         if(len(results) > 0):
             for result in results:
                 if current_step['type'] == 'text':
-                    # TODO: save it to csv
                     print('   +++ text found +++', result)
+                    self.save_to_file(result)
+
+                    # TODO save as csv (make it changeable in the config)
                 else:
                     print('   +++ link found +++', result)
-
 
                 if current_step['type'] == 'link':
                     # Append the result to links to visit if they are not in the list
@@ -131,8 +134,8 @@ class Scraper:
     def scrape_children(self, html):
         current_step = self.get_step_from_slug()
         current_step_name = self.get_next_step_slug()
-        
-        if current_step_name == 'main' or (('simultaneous' in current_step and current_step['simultaneous'] == True) and ('steps' in current_step and len(current_step['steps']) > 0)):    
+
+        if current_step_name == 'main' or (('simultaneous' in current_step and current_step['simultaneous'] == True) and ('steps' in current_step and len(current_step['steps']) > 0)):
             for step_name, step in current_step['steps'].items():
                 self.scrape_page(html, step=step, step_name=step_name)
 
@@ -153,7 +156,7 @@ class Scraper:
             self.go_to_next_url()
 
     def get_next_url(self):
-        return self.pages_to_visit[0]['url']  if len(self.pages_to_visit) else None
+        return self.pages_to_visit[0]['url'] if len(self.pages_to_visit) else None
 
     def get_next_step_slug(self):
         return self.pages_to_visit[0]['step'] if len(self.pages_to_visit) else None

@@ -7,11 +7,11 @@
         "multiple": true,
         "target": "table td a",
         "simultaneous": true,
-        "replace": ["search", "replace"],   
+        "replace": ["search", "replace"],
         "steps": {
           "profile": {
             "type": "text",
-            "target": "h1",
+            "target": "h1"
           }
         }
       }
