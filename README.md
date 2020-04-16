@@ -14,6 +14,11 @@ To run the scraper, run `yarn scrape`. It will run the scraper based on the conf
 ## Todo
 
 [ ] Improve documentation
+
 [ ] Create a user friendly helper to start scraping without knowing what json is
+
 [ ] Add custom export settings
+
 [ ] Add csv export
+
+[x] Add a savings file, so that you can start from there if the script is interrupted

@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as Soup
 import urllib.parse
+import json
 
 
 class Scraper:
@@ -12,13 +13,25 @@ class Scraper:
     def __init__(self, CONFIG):
         self.CONFIG = CONFIG
 
-        self.add_page_to_visit(
-            self.CONFIG[self.MAIN_SLUG]['start_url'], self.MAIN_SLUG)
-
-        step = self.get_step_from_slug()
-        step_name = self.get_step_name_from_slug()
+        if not self.load_last_saving():
+            self.add_page_to_visit(
+                self.CONFIG[self.MAIN_SLUG]['start_url'], self.MAIN_SLUG)
 
         self.handle_pages()
+
+    def load_last_saving(self):
+        try:
+            file = open("saving.txt", "r")
+            content = file.read()
+
+            self.pages_to_visit = json.loads(content)
+            return True
+        except:
+            return False
+
+    def update_saving(self):
+        file = open("saving.txt", "w+")
+        file.write(json.dumps(self.pages_to_visit))
 
     def get_result_by_type(self, step, item):
         """
@@ -130,6 +143,8 @@ class Scraper:
                 if current_step['type'] == 'link':
                     # Append the result to links to visit if they are not in the list
                     self.add_page_to_visit(result, current_step_name)
+
+        self.update_saving()
 
     def scrape_children(self, html):
         current_step = self.get_step_from_slug()
