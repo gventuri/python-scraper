@@ -22,3 +22,7 @@ To run the scraper, run `yarn scrape`. It will run the scraper based on the conf
 [ ] Add csv export
 
 [x] Add a savings file, so that you can start from there if the script is interrupted
+
+[ ] Add error handling preventing the script to crash on error
+
+[ ] Add concurrent scraping (possibility to multiple scrapes at the same time)
